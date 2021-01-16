@@ -35,8 +35,6 @@ parser.add_argument('-t', '--temp', default=1., type=float,
                     help='temperature for distillation')
 parser.add_argument('--alpha', default=0.5, type=float,
                     help='weighting for hard loss during distillation')
-parser.add_argument('-c', '--ckpt', default='resnet50.pt', type=string,
-                    help='model checkpoint to load for inference')
 
 
 def profile(arch, device):
