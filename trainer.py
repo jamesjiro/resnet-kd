@@ -24,7 +24,7 @@ def loss_kd(outputs, teacher_outputs, labels, temp, alpha):
     beta = 1. - alpha
     q = F.log_softmax(outputs/temp, dim=1)
     p = F.softmax(teacher_outputs/temp, dim=1)
-    soft_loss = nn.KLDivLoss(reduction='batchmean')(q, p)
+    soft_loss = nn.KLDivLoss(reduction='batchmean')(q, p) * temp ** 2
     hard_loss = nn.CrossEntropyLoss()(outputs, labels)
     KD_loss = alpha * hard_loss + beta * soft_loss
 
