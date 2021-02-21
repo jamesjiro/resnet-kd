@@ -31,9 +31,9 @@ parser.add_argument('-s', '--student', default='resnet18', choices=resnets,
                         ' (default: resnet18)')
 parser.add_argument('--epochs', default=25, type=int,
                     help='number of total epochs to run')
-parser.add_argument('-t', '--temp', default=1., type=float,
+parser.add_argument('-t', '--temp', default=10., type=float,
                     help='temperature for distillation')
-parser.add_argument('--alpha', default=0.5, type=float,
+parser.add_argument('--alpha', default=0.2, type=float,
                     help='weighting for hard loss during distillation')
 
 
@@ -100,7 +100,9 @@ def train(arch, mode, temp, alpha, epochs, device):
         load_teacher(teacher, len(class_names))
         teacher.to(device)
     else:
+        teacher = None
         criterion = nn.CrossEntropyLoss()
+
     optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
     exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
 
@@ -108,7 +110,7 @@ def train(arch, mode, temp, alpha, epochs, device):
     model_ft = train_model(model_ft, dataloaders, criterion, optimizer_ft, 
                            exp_lr_scheduler, writer, device, temp, alpha,
                            teacher, epochs)
-    save_path = "{mode}_{arch}_{num_epochs}.pt"
+    save_path = f"{mode}_{arch}_{epochs}.pt"
     torch.save(model_ft.state_dict(), save_path)
 
 
