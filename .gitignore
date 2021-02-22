@@ -2,6 +2,9 @@
 cifar-10-batches-py/
 cifar-10-python.tar.gz
 
+# Training runs
+runs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
